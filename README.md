@@ -2,7 +2,7 @@
 Young-Hoon Nho (nhoyh1@gmail.com)
 collaboration with Dong-Hoon Baek (romansabaek@gmail.com)
 
-Segmentation results
+Surgical tool segmentation results
 -----------
 <div>
 <img width="200" src="https://user-images.githubusercontent.com/42211418/100967344-572c5880-3572-11eb-8613-b21a76f2cd75.png">
