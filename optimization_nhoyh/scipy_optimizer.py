@@ -35,10 +35,10 @@ def init_Random_Population(population_size, chromosome_size):
     #based on human knowledgement (Heuristic)
     new_population = []
     X=[]
-#    low_bound = [-10,-10,-10,-10,-10,-10,-10]
-#    upper_bound = [10,10,10,10,10,10,10]
-    low_bound = [-1, -1, -1, -10, -1, -1, -5]
-    upper_bound = [1, 1, 1, 10, 5, 25, 5]
+#    low_bound = [0.0195,0.0002,0.0001,3.4378,0.6863,12.9245,-3.28] # 0 1
+#    upper_bound = [0.0682,0.0127,0.0099,16.3298,0.9465,37.0849,0.8304]
+    low_bound = [0.0282,0.0013,0.0007,5.1632,0.7196,14.6929,-2.7508] # 0.25 0.75
+    upper_bound = [0.052,0.011,0.0091,11.4216,0.8844,24.4927,-0.7128]
     # Defining the population size.
     for i in range(population_size):
         for j in range(chromosome_size):
@@ -175,26 +175,29 @@ def main():
     initial_cost = CostFunction(init_point)
 
     t_start = time.time()
-#    optimum = minimize(CostFunction,init_point,method='CG',bounds=bnds,options={'xtol':1e-8,'disp':True,'maxiter':10})
     cnt = 0
     while (1):
         optimum = minimize(CostFunction,init_point,method=args.method,options={'xtol':1e-8,'disp':True,'maxiter':1000})
+#        optimum = minimize(CostFunction,init_point,method=args.method,bounds=bnds,options={'xtol':1e-8,'disp':True,'maxiter':1000})
         cnt = cnt + 1
-        print("Trial #: ",cnt)
+        print("Trial #: ",cnt, args.data, args.method)
         if CostFunction(optimum.x) < 2:
             break
         if time.time() - t_start > 5:
             break
     t_end = time.time()
     print('########### RESULT ############ (# of iter, init cost, fin cost, X, time)')
-#    print(optimum.success)
-    print(optimum.nit)
+#    print(optimum)
+    if args.method == 'COBYLA':
+        nit = optimum.nfev
+    else:
+        nit = optimum.nit
     print(initial_cost)
     print(CostFunction(optimum.x))
     print(np.round(optimum.x,4))
     print(t_end-t_start)
 
-    results = [initial_cost, CostFunction(optimum.x),np.round(optimum.x,4),optimum.nit,t_end-t_start,args.data]
+    results = [initial_cost, CostFunction(optimum.x),np.round(optimum.x,4),nit,t_end-t_start,args.data]
     location = "result/{}/".format(args.method)
     save_results_csv(location+"/results{}.csv".format(""), results, header=0)
 
