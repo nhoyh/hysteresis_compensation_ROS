@@ -183,7 +183,7 @@ def main():
         print("Trial #: ",cnt, args.data, args.method)
         if CostFunction(optimum.x) < 2:
             break
-        if time.time() - t_start > 5:
+        if time.time() - t_start > 30:
             break
     t_end = time.time()
     print('########### RESULT ############ (# of iter, init cost, fin cost, X, time)')
