@@ -18,6 +18,7 @@ class cyclegan(object):
         self.input_c_dim = args.input_nc
         self.output_c_dim = args.output_nc
         self.L1_lambda = args.L1_lambda
+        self.sim = args.sim
         self.dataset_dir = args.dataset_dir
 
         self.discriminator = discriminator
@@ -69,7 +70,7 @@ class cyclegan(object):
             + self.criterionGAN(self.DB_fake, tf.ones_like(self.DB_fake)) \
             + self.L1_lambda * abs_criterion(self.real_A, self.fake_A_) \
             + self.L1_lambda * abs_criterion(self.real_B, self.fake_B_) \
-            + 0*abs_criterion(self.real_A, self.fake_A) + 0*abs_criterion(self.real_B, self.fake_B) # overall loss.. two adversarial + two cycle consistency loss
+            + self.sim*abs_criterion(self.real_A, self.fake_A) + self.sim*abs_criterion(self.real_B, self.fake_B) # overall loss.. two adversarial + two cycle consistency loss
 
         self.fake_A_sample = tf.placeholder(tf.float32,
                                             [None, self.image_size, self.image_size,
