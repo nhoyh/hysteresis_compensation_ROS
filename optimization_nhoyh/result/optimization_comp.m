@@ -35,10 +35,10 @@ for i = 1:method_num
     for j = 1: case_
         if data_w{i}(j,3) < acc_ && data_w{i}(j,4) >= time_
             exceed_cnt(3,i) = exceed_cnt(3,i) + 1;   
-        elseif data_w{i}(j,3) >= acc_ 
-            exceed_cnt(1,i) = exceed_cnt(1,i) + 1;
         elseif data_w{i}(j,4) >= time_
             exceed_cnt(2,i) = exceed_cnt(2,i) + 1;      
+        elseif data_w{i}(j,3) >= acc_ 
+            exceed_cnt(1,i) = exceed_cnt(1,i) + 1;
         end
         if data_w{i}(j,3) < acc_ && data_w{i}(j,4) < time_ 
             exceed_cnt(4,i) = exceed_cnt(4,i) + 1;        
