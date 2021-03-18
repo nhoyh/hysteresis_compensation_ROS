@@ -11,11 +11,10 @@ end
 
 
 %% success or fail
-
-acc_ = 5;
-time_ = 120;
+acc_ = 3; % cost 
+time_ = 60; % 120 % time cost
 cnt = 0;
-case_ = 18;
+case_ = 18; % 0 15 30, ... #: 18
 for i = 1:method_num
     for j = 1: case_
         if data_w{i}(j,3) < acc_ && data_w{i}(j,4) < time_
@@ -46,15 +45,19 @@ for i = 1:method_num
     
     rmse_cost(i,:) = rms(final_cost{i});
     rmse_time(i,:) = rms(final_time{i});
+        
+    std_cost(i,:) = std(final_cost{i});
+    std_time(i,:) = std(final_time{i});
 end
-
+robustness = robustness * 100;
 %% graph
 figure();
 subplot(1,3,1);
 hold on;
 grid on;
 bar(mean_cost);
-errorbar(1:numel(method),mean_cost,rmse_cost,'.','Color','r'); 
+% errorbar(1:numel(method),mean_cost,rmse_cost,'.','Color','r'); 
+errorbar(1:numel(method),mean_cost,std_cost,'.','Color','r'); 
 set(gca, 'XTickLabel',method);
 set(gca,'XTick',1:numel(method));
 xlabel('optimization algorithms','FontSize', 15);
@@ -65,7 +68,8 @@ subplot(1,3,2);
 hold on;
 grid on;
 bar(mean_time);
-errorbar(1:numel(method),mean_time,rmse_time,'.','Color','r');    
+% errorbar(1:numel(method),mean_time,rmse_time,'.','Color','r');    
+errorbar(1:numel(method),mean_time,std_time,'.','Color','r');    
 set(gca, 'XTickLabel',method);
 set(gca,'XTick',1:numel(method));
 xlabel('optimization algorithms','FontSize', 15);
@@ -87,7 +91,14 @@ figure();
 subplot(1,2,1);
 hold on;
 grid on;
-boxplot([success_cost{1},success_cost{2},success_cost{3},success_cost{4},success_cost{5},success_cost{6},success_cost{7},success_cost{8},success_cost{9}]);
+box_data =[];
+box_group = [];
+for i = 1 : size(final_cost,2)
+    box_data = [box_data ; final_cost{i}];
+    box_group = [box_group ; ones(size(final_cost{i},1),1) * (i-1)];
+end
+boxplot(box_data, box_group);
+
 set(gca, 'XTickLabel',method);
 set(gca,'XTick',1:numel(method));
 xlabel('optimization algorithms','FontSize', 15);
@@ -97,7 +108,14 @@ hold off;
 subplot(1,2,2);
 hold on;
 grid on;
-boxplot([success_time{1},success_time{2},success_time{3},success_time{4},success_time{5},success_time{6},success_time{7},success_time{8},success_time{9}]);
+box_data =[];
+box_group = [];
+for i = 1 : size(final_time,2)
+    box_data = [box_data ; final_time{i}];
+    box_group = [box_group ; ones(size(final_time{i},1),1) * (i-1)];
+end
+boxplot(box_data, box_group);
+
 set(gca, 'XTickLabel',method);
 set(gca,'XTick',1:numel(method));
 xlabel('optimization algorithms','FontSize', 15);
