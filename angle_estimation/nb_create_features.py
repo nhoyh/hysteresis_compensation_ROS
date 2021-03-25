@@ -9,7 +9,7 @@ import cv2
 
 
 work_dir = "./features_out/"
-filepath_rendering = '../data/virtual/'
+filepath_rendering = './data/resize_128/label/'
 
 
 sess = tf.InteractiveSession() #tf.Session() ->> connection among python object, data, and memory
@@ -44,7 +44,7 @@ def main(_):
 
   global saver
   saver = tf.compat.v1.train.Saver()
-  save_model_name = "../train/model/"+str(sys.argv[1])
+  save_model_name = "./model/"+str(sys.argv[1])
   saver.restore(sess, save_model_name)
 
   coord = tf.train.Coordinator() #thread control 

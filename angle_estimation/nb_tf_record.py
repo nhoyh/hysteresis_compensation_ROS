@@ -11,18 +11,21 @@ import cv2
 import matplotlib.pyplot as plt
 
 #input
-output_path_training ="../data/txt/"
-record_output_training = "../data/tfrecord/nb_training_pair_shff_noise_x.tfrecords"
+output_path_training ="./txt/"
+record_output_training = "./tfrecord/nb_training_pair_shff.tfrecords"
 
-
-writer = tf.python_io.TFRecordWriter(record_output_training)
+writer = tf.io.TFRecordWriter(record_output_training)
 
 def _bytes_feature(value):
      # input: string / byte type ,and return byte list
-    return tf.train.Feature(bytes_list=tf.train.BytesList(value=[value]))
+    return tf.train.Feature(bytes_list=tf.train.BytesList(value=[value])) #input string , return byte type
 
 def _int64_feature(value):
-    return tf.train.Feature(int64_list=tf.train.Int64List(value=[value]))
+    return tf.train.Feature(int64_list=tf.train.Int64List(value=[value])) #return int64, input bool, uint, enum, bool..
+
+def _float_feature(value):
+    return tf.train.Feature(float_list=tf.train.FloatList(value=[value]))
+
 
 def main(_):
 
@@ -30,9 +33,9 @@ def main(_):
 
     input_var = 1
     labeling = 2
-    angle_range = 60 # 1 ~ 60
-    iteration = input_var * 100 # 60 20 20
-    data_num = labeling * iteration * angle_range # 12000
+    angle_range = 61 # 0,1,... ~ 50
+    iteration = 100 # 60 20 20
+    data_num = labeling * iteration * angle_range * input_var # 12000
 
     for i in range(data_num):
         print(i,data_num)
@@ -61,4 +64,4 @@ if __name__ == "__main__":
     print("Usage===============")
     print("Second step : python bdh_tf_record.py")
     print("====================")
-    tf.app.run(main=main, argv=[sys.argv[0]])
+    tf.compat.v1.app.run(main=main, argv=[sys.argv[0]])

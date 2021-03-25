@@ -23,7 +23,7 @@ def create_pairset(anno_path, render_path):
             files_2.sort()
 
         num = 1
-        iteration = 50 # how many datasets are you create?
+        iteration = 100 # how many datasets are you create?
 
         for j in range(file_N):
              while num <= iteration:
@@ -42,13 +42,13 @@ def write_txt_false(files_1, files_2, i ,j):
     text_file.write(filepath_annotation + str(i) + str('/') + str(files_1[j]))
     text_file.write(" ")
 
-    new_num = random.randrange(0, 61,2) 
-    while(new_num == j*2):
-            new_num = random.randrange(0, 61,2)
+    new_num = random.randrange(0, 61) 
+    while(new_num == j):
+            new_num = random.randrange(0, 61)
             print("same parameter")
-            if (new_num != j*2):
+            if (new_num != j):
                 break
-    index = int(new_num)/2
+    index = int(new_num)
     print(index)
     text_file.write(filepath_rendering + str(files_2[index]))
     text_file.write("\n")

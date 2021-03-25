@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 import random
 
 #input
-output_path_training =  "../data/txt/"
+output_path_training =  "./txt/"
 
 def run():
 

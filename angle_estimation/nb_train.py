@@ -4,15 +4,17 @@ import numpy as np
 import nb_network
 import sys
 import matplotlib.pyplot as plt
+import time
 
 #parameter definition
 flags = tf.app.flags
 FLAGS = flags.FLAGS
-flags.DEFINE_integer('batch_size', 200, 'Batch size.')
-flags.DEFINE_integer('train_iter', 1000000, 'Total training iter')
-flags.DEFINE_integer('training_epochs', 500, 'epoch')
+flags.DEFINE_integer('batch_size', 100, 'Batch size.')
+flags.DEFINE_integer('train_iter', 1860000, 'Total training iter')
+flags.DEFINE_integer('training_epochs', 221, 'epoch')
 flags.DEFINE_integer('img_size', 128, 'image size')
 flags.DEFINE_float('learning_rate', 0.00003, 'learning rate')
+flags.DEFINE_integer('data_num', 12200, 'data num')
 
 def read_test():
     init_op = tf.group(tf.compat.v1.global_variables_initializer())
@@ -103,19 +105,23 @@ def main(_):
     itr = 0
 
     for epoch in range(FLAGS.training_epochs): 
-        total_batch = int(12000/FLAGS.batch_size) 
-
-        for i in range(total_batch):
+        total_batch = FLAGS.data_num // FLAGS.batch_size 
+        ti_= time.time()
+        for i in range(0,total_batch):
+            
            D1, D2, L = sess.run([camera_batch, rendering_batch, label_batch])
            _, loss, summary_str = sess.run([optimizer, Net.loss, merged],
                                         feed_dict={Net.x1: D1, Net.x2: D2, Net.y_: L})
 
            writer.add_summary(summary_str, itr) #to tensorboard
 	   itr +=1
-           if (i % 1 == 0):
+
+           if (i % 2 == 0):
               print("epoch=%d, iteration = %d,loss = %f" % (epoch,i, loss))
               log.write('%d, %d,  %f' % (epoch,i, loss))
-        if(epoch%5 ==0):  
+        tf_ = time.time()
+        print("time =%f"%(tf_-ti_))
+        if(epoch%10 ==0):  
            saver.save(sess, './model/bdhnet', global_step=epoch)
     log.close()
 
@@ -124,5 +130,5 @@ def main(_):
 if __name__ == '__main__':
     print("=====usage=====")
     global tfrecords_filename
-    tfrecords_filename= "../data/tfrecord/nb_training_pair_shff_noise_x.tfrecords"
+    tfrecords_filename= "./tfrecord/nb_training_pair_shff.tfrecords"
     tf.compat.v1.app.run(main=main, argv=[sys.argv[0]])

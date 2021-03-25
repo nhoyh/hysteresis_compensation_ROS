@@ -4,11 +4,11 @@ import tensorflow as tf
 class BDHNET:
 
     def __init__(self):
-        self.x1=tf.placeholder(tf.float32,[None,128,128,3])
-        self.x2=tf.placeholder(tf.float32,[None,128,128,3])
-        self.phase = tf.placeholder(tf.bool, name='phase')
+        self.x1=tf.compat.v1.placeholder (tf.float32,[None,128,128,3])
+        self.x2=tf.compat.v1.placeholder (tf.float32,[None,128,128,3])
+        self.phase = tf.compat.v1.placeholder (tf.bool, name='phase')
 
-        with tf.variable_scope("BDHNET") as scope:
+        with tf.compat.v1.variable_scope("BDHNET") as scope:
             self.o1=self.mynet_cam(self.x1)
             scope.reuse_variables()  #uncomment this line for siamese-network, comment this line for pseudo-siamese network
             self.o2=self.mynet_cam(self.x2)
@@ -21,49 +21,49 @@ class BDHNET:
         regularizer = tf.contrib.layers.l2_regularizer(scale=0.01)
         #tf.contrib.layers.variance_scaling_initializer()  
         with tf.name_scope("model"):
-		with tf.variable_scope("conv1") as scope:
+		with tf.compat.v1.variable_scope("conv1") as scope:
 			net = tf.contrib.layers.conv2d(input_, 32, [5, 5],stride=2,weights_regularizer=regularizer, activation_fn=tf.nn.relu, padding='SAME',
 		        weights_initializer=tf.contrib.layers.xavier_initializer_conv2d(),scope=scope)
                         #net = tf.contrib.layers.batch_norm(net, center=True, scale=True, is_training=self.phase, scope='bn')
                         #net = tf.nn.relu(net, 'relu')
 			net = tf.contrib.layers.max_pool2d(net, [2, 2], padding='SAME')
 
-		with tf.variable_scope("conv2") as scope:
+		with tf.compat.v1.variable_scope("conv2") as scope:
 			net = tf.contrib.layers.conv2d(net, 64, [3, 3], stride=2,weights_regularizer=regularizer,activation_fn=tf.nn.relu, padding='SAME',
 		        weights_initializer=tf.contrib.layers.xavier_initializer_conv2d(),scope=scope)
                         #net = tf.contrib.layers.batch_norm(net, center=True, scale=True, is_training=self.phase, scope='bn')
                         #net = tf.nn.relu(net, 'relu')
 			net = tf.contrib.layers.max_pool2d(net, [2, 2], padding='SAME')
 
-		with tf.variable_scope("conv3") as scope:
+		with tf.compat.v1.variable_scope("conv3") as scope:
 			net = tf.contrib.layers.conv2d(net, 128, [3, 3], stride=2,weights_regularizer=regularizer,activation_fn=tf.nn.relu, padding='SAME',
 		        weights_initializer=tf.contrib.layers.xavier_initializer_conv2d(),scope=scope)
                         #net = tf.contrib.layers.batch_norm(net, center=True, scale=True, is_training=self.phase, scope='bn')
                         #net = tf.nn.relu(net, 'relu')
 			net = tf.contrib.layers.max_pool2d(net, [2, 2], padding='SAME')
 
-		with tf.variable_scope("conv4") as scope:
+		with tf.compat.v1.variable_scope("conv4") as scope:
 			net = tf.contrib.layers.conv2d(net, 256, [3, 3], stride=2,activation_fn=tf.nn.relu, padding='SAME',
 		        weights_initializer=tf.contrib.layers.xavier_initializer_conv2d(),scope=scope)
                         #net = tf.contrib.layers.batch_norm(net, center=True, scale=True, is_training=self.phase, scope='bn')
                         #net = tf.nn.relu(net, 'relu')
 			net = tf.contrib.layers.max_pool2d(net, [2, 2], padding='SAME')
 
-		with tf.variable_scope("conv5") as scope:
+		with tf.compat.v1.variable_scope("conv5") as scope:
 			net = tf.contrib.layers.conv2d(net, 256, [3, 3], activation_fn=tf.nn.relu, padding='SAME',
 		        weights_initializer=tf.contrib.layers.xavier_initializer_conv2d(),scope=scope)
 			#net = tf.contrib.layers.max_pool2d(net, [2, 2], padding='SAME') 
 		
                 net = tf.contrib.layers.flatten(net)
 
-                with tf.variable_scope("fc1") as scope:
+                with tf.compat.v1.variable_scope("fc1") as scope:
                         net = tf.contrib.layers.fully_connected(net, 256, activation_fn=tf.nn.sigmoid, 
-                        weights_initializer=tf.contrib.layers.xavier_initializer(),scope=scope,reuse=tf.AUTO_REUSE)
+                        weights_initializer=tf.contrib.layers.xavier_initializer(),scope=scope,reuse=tf.compat.v1.AUTO_REUSE)
                         #net = tf.contrib.layers.dropout(net,keep_prob=0.5)
                 
-                with tf.variable_scope("fc2") as scope:
+                with tf.compat.v1.variable_scope("fc2") as scope:
                         net = tf.contrib.layers.fully_connected(net, 256, activation_fn=tf.nn.sigmoid, 
-                        weights_initializer=tf.contrib.layers.xavier_initializer(),scope=scope,reuse=tf.AUTO_REUSE)
+                        weights_initializer=tf.contrib.layers.xavier_initializer(),scope=scope,reuse=tf.compat.v1.AUTO_REUSE)
                         #net = tf.contrib.layers.dropout(net,keep_prob=0.5)
                 
         return net
