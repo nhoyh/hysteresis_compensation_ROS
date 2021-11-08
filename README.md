@@ -9,6 +9,10 @@ This project is published on IEEE Robotics and Automation Letter https://ieeexpl
 Please send me an e-mail if you need "cyclegan.model-42662.data-00000-of-00001" in your checkpoint folder.
 (113.2Mb)
 
+<img width="400" src="https://user-images.githubusercontent.com/42211418/140783567-1bc53378-c129-4cdd-8853-02d77a6e2e92.PNG">
+
+
+
 Surgical tool segmentation results
 -----------
 <div>
