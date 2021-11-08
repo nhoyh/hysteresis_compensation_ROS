@@ -2,15 +2,13 @@
 Young-Hoon Nho (nhoyh1@gmail.com)
 collaboration with Dong-Hoon Baek (romansabaek@gmail.com)
 
-This project is published on IEEE Robotics and Automation Letters https://ieeexplore.ieee.org/abstract/document/9591437
-"ViO-Com: Feed-forward compensation using vision-based optimization for high-precision surgical manipulation"
-Please send me an e-mail if you need "cyclegan.model-42662.data-00000-of-00001" in your checkpoint folder.
-(113.2Mb)
+This project is published on IEEE Robotics and Automation Letters https://ieeexplore.ieee.org/abstract/document/9591437  
+"ViO-Com: Feed-forward compensation using vision-based optimization for high-precision surgical manipulation"  
+Please send me an e-mail if you need "cyclegan.model-42662.data-00000-of-00001" in your checkpoint folder.(113.2Mb)
 
 Pipeline
 -----------
-<img width="800" src="https://user-images.githubusercontent.com/42211418/140783567-1bc53378-c129-4cdd-8853-02d77a6e2e92.PNG">
-
+<img width="800" src="https://user-images.githubusercontent.com/42211418/140783567-1bc53378-c129-4cdd-8853-02d77a6e2e92.PNG">  
 RGB organ image (IRGB) acquired from an endoscopic camera is converted to the binary image by using the modified CycleGAN. The SCNN extracted the features in the binary image and this feature is utilized to search the most similar virtual image to the binary image in the pre-built virtual image dataset (Ivir). During the calibration phase, the sinusoidal periodic signal is given to the surgical manipulator so the sequence data in calibration period (k ∈ 0,1,...,N) including the desired angles (θ(k) desired) and the estimated angles (θˆ(k) ) is obtained simultaneously. With this data, the BFGS optimization method identifies the Bouc-Wen model parameters (non-optimized, P) and the feed-forward compensation using the Bouc-Wen model with optimized parameters (P∗) is finally available to apply to a surgical manipulator.
 
 Surgical tool segmentation results
