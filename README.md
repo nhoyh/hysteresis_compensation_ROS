@@ -1,4 +1,4 @@
-# hysteresis_compensation_ROS
+# ViO-Com: Feed-forward compensation using vision-based optimization for high-precision surgical manipulation
 Young-Hoon Nho (nhoyh1@gmail.com)
 collaboration with Dong-Hoon Baek (romansabaek@gmail.com)
 
